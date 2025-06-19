@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="restaurant.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-18T12:14:11.105072Z">
+        <DropdownSelection timestamp="2025-06-19T04:18:24.618556Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/pure-dev-danishamjad/.android/avd/Pixel_8_API_34.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/danishamjad/.android/avd/Pixel_7a_API_34.avd" />
             </handle>
           </Target>
         </DropdownSelection>
