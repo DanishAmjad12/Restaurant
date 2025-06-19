@@ -3,6 +3,7 @@ package com.android.restaurant.ui.detail
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.restaurant.data.model.DetailRestaurantResponse
@@ -16,23 +17,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: RestaurantRepository
+    private val repository: RestaurantRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
 
     private val _uiState = MutableLiveData<UiState<DetailRestaurantResponse>>()
     val uiState: LiveData<UiState<DetailRestaurantResponse>> = _uiState
 
+    private val _restaurantData = MutableLiveData<RestaurantData?>()
+    val restaurantData: LiveData<RestaurantData?> = _restaurantData
 
-     fun getRestaurantDetail(id:String) {
+    init {
+        val restaurant = savedStateHandle.get<RestaurantData>("restaurant")
+        _restaurantData.value = restaurant
+        restaurant?.id?.let { getRestaurantDetail(it) }
+    }
+
+    private fun getRestaurantDetail(id: String) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
                 val data = repository.getRestaurantDetail(id)
-                Log.e("ViewModel", "Success: ${data}")
                 _uiState.value = UiState.Success(data)
             } catch (e: Exception) {
-                Log.e("ViewModel", "Error: ${e.localizedMessage}")
                 _uiState.value = UiState.Error(e.message ?: "Unknown error")
             }
         }

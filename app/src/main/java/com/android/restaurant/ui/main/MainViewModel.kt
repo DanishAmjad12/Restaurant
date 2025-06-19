@@ -24,6 +24,9 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableLiveData<UiState<ArrayList<RestaurantData>>>()
     val uiState: LiveData<UiState<ArrayList<RestaurantData>>> = _uiState
 
+    init {
+        getRestaurants("3906535a-d96c-47cf-99b0-009fc9e038e0","")
+    }
 
     fun getRestaurants(region:String,query:String?="") {
         viewModelScope.launch {
