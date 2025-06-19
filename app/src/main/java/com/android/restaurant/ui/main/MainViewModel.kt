@@ -25,11 +25,11 @@ class MainViewModel @Inject constructor(
     val uiState: LiveData<UiState<ArrayList<RestaurantData>>> = _uiState
 
 
-    fun getRestaurants(region:String) {
+    fun getRestaurants(region:String,query:String?="") {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
-                val data = repository.getRestaurants(region)
+                val data = repository.getRestaurants(region,query)
                 Log.e("ViewModel", "Success: ${data}")
                 _uiState.value = UiState.Success(data.data)
             } catch (e: Exception) {

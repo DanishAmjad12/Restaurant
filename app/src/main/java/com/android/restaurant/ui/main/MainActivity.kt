@@ -2,11 +2,16 @@ package com.android.restaurant.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.restaurant.databinding.ActivityMainBinding
 import com.android.restaurant.ui.detail.DetailActivity
@@ -14,6 +19,13 @@ import com.android.restaurant.ui.main.adapter.RestaurantAdapter
 import com.android.restaurant.util.NetworkUtils
 import com.android.restaurant.util.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity()
@@ -29,8 +41,9 @@ class MainActivity: AppCompatActivity()
         val view = binding.root
         setContentView(view)
         setupRecyclerView()
+        searchRestaurant()
 
-       callAPI()
+        callAPI()
 
         viewModel.uiState.observe(this) { state ->
             when (state) {
@@ -60,9 +73,9 @@ class MainActivity: AppCompatActivity()
 
     }
 
-    private fun callAPI() {
+    private fun callAPI(query:String?="") {
         if(NetworkUtils.isNetworkAvailable(this))
-            viewModel.getRestaurants("3906535a-d96c-47cf-99b0-009fc9e038e0")
+            viewModel.getRestaurants("3906535a-d96c-47cf-99b0-009fc9e038e0",query)
         else
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
 
@@ -72,4 +85,31 @@ class MainActivity: AppCompatActivity()
         binding.recycler.layoutManager = LinearLayoutManager(this)
 
     }
+
+    private fun searchRestaurant()
+    {
+        lifecycleScope.launch {
+            binding.etSearch.textChanges()
+                .debounce(500) // waits 500ms after user stops typing
+                .filter { it.isNotEmpty() } // optional: skip empty input
+                .distinctUntilChanged()
+                .collect { query ->
+                    callAPI(query) // your API function
+                }
+        }
+    }
+
+    fun EditText.textChanges(): Flow<String> = callbackFlow {
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                trySend(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        addTextChangedListener(watcher)
+        awaitClose { removeTextChangedListener(watcher) }
+    }
+
 }

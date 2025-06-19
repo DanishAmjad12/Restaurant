@@ -6,6 +6,6 @@ import javax.inject.Inject
 class RestaurantRepository @Inject constructor(
     private val api: APIService
 ) {
-    suspend fun getRestaurants(region:String) = api.getRestaurants(region)
+    suspend fun getRestaurants(region:String,query:String?="") = api.getRestaurants(region,query)
     suspend fun getRestaurantDetail(id: String) = api.getRestaurantDetail(id)
 }
