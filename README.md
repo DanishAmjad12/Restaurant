@@ -1,3 +1,3 @@
-### Demo Video
+# Demo
 
-[Watch the demo video](media/restaurant.mp4)
+![](Demo.gif)
