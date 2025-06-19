@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="12dp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRestaurantName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Firefly Lounge"
+            android:textStyle="bold"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/starContainer"
+            app:layout_constraintHorizontal_bias="0" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRestaurantAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Radisson Blue Hotel, Business Bay"
+            android:textColor="@color/gray_color"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvRestaurantName"
+            app:layout_constraintTop_toBottomOf="@id/tvRestaurantName"
+            app:layout_constraintEnd_toStartOf="@id/starContainer"
+            app:layout_constraintBottom_toTopOf="@id/ivRestaurantImage"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:id="@+id/starContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star"
+                app:tint="#FFA000" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4.9"
+                android:textStyle="bold"
+                android:textColor="@color/rating_color"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivRestaurantImage"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:contentDescription="restaurant image"
+            app:layout_constraintTop_toBottomOf="@id/tvRestaurantAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_image_rounded" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$$"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:background="@drawable/bg_tag"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintStart_toStartOf="@id/ivRestaurantImage"
+            app:layout_constraintBottom_toBottomOf="@id/ivRestaurantImage"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="International"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:background="@drawable/bg_tag"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintStart_toEndOf="@id/tvPrice"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            android:layout_marginStart="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
